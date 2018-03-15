@@ -252,3 +252,5 @@ NXST_FLOW reply (xid=0x4):
 
 ## ovs接收到数据包后的处理流程
 ![ovs数据包处理流程](assets/markdown-img-paste-20171124103227876.png)
+![ovs数据包处理流程](https://tonydeng.github.io/sdn-handbook/ovs/images/ovs-architecture.jpg)
+

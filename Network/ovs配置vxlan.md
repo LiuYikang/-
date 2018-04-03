@@ -4,9 +4,11 @@
 VXLAN 全称是 Virtual eXtensible Local Area Network，虚拟可扩展的局域网。它是一种 overlay 技术，通过三层的网络来搭建虚拟的二层网络。
 
 VXLAN的工作模型如图所示
+
 ![](http://support.huawei.com/huaweiconnect/enterprise/data/attachment/forum/dm/ecommunity/uploads/2015/1123/16/5652c940898f4.png)
 
 下图描绘了VTEP的组成
+
 ![](https://images2015.cnblogs.com/blog/676015/201603/676015-20160315153757084-1317081284.png)
 
 VXLAN创建在原来的 IP 网络（三层）上，只要是三层可达（能够通过 IP 互相通信）的网络就能部署 vxlan。在每个端点上都有一个 vtep 负责 vxlan 协议报文的封包和解包，也就是在虚拟报文上封装 vtep 通信的报文头部。物理网络上可以创建多个 vxlan 网络，这些 vxlan 网络可以认为是一个隧道，不同节点的虚拟机能够通过隧道直连。每个 vxlan 网络由唯一的 VNI 标识，不同的 vxlan 可以不相互影响。
@@ -19,6 +21,7 @@ VXLAN创建在原来的 IP 网络（三层）上，只要是三层可达（能�
 * Tunnel：隧道是一个逻辑上的概念，在 vxlan 模型中并没有具体的物理实体想对应。隧道可以看做是一种虚拟通道，vxlan 通信双方（图中的虚拟机）认为自己是在直接通信，并不知道底层网络的存在。从整体来说，每个 vxlan 网络像是为通信的虚拟机搭建了一个单独的通信通道，也就是隧道
 
 ### vxlan的报文
+
 ![](https://ying-zhang.github.io/img/vnet-vxlan.png)
 
 vxlan的报文如图所示，报文各个部分的意义如下：
@@ -55,11 +58,16 @@ vxlan的流量模型和vlan的流量模型是一样的，一般分为三种：�
 * 三层网关：解决vxlan网络中不同的VNI之间、vxlan网络和非vxlan网络之间的通信。
     三层网关分为集中式网关和分布式网关：
     1. 集中式网关：将Leaf节点作为L2网关，Spine节点作为L3网关
+    
     ![](http://occwxjjdz.bkt.clouddn.com/jizhongshi.png)
+    
         * 网关的部署较为简单，但是转发路径不是最优:同一二层网关下跨子网的数据中心三层流量都需要经过集中三层网关转发。
         * ARP表项规格瓶颈:由于采用集中三层网关,通过三层网关转发的终端租户的ARP表项都需要在三层网关上生成,而三层网关上的ARP表项规格有限,这不利于数据中心网络的扩展。
+        
     2. 分布式网关
+    
     ![](http://occwxjjdz.bkt.clouddn.com/fengbushi.png)
+    
         * 同一个Leaf节点既可以做VXLAN二层网关,也可以做VXLAN三层网关,部署灵活。
         * Leaf节点只需要学习自身连接服务器的ARP表项,而不必像集中三层网关一样,需要学习所有服务器的ARP表项,解决了集中式三层网关带来的ARP表项瓶颈问题,网络规模扩展能力强
 

@@ -360,3 +360,10 @@ ip -6 route del default dev <device>
 ### 3.4 ip6tables
 
 ip6tables和iptables的使用方法一直，也是对网络进行管理控制，iptables的规则对于ip6tables是不生效的，相互独立。
+
+## 4. 参考文档
+https://www.tldp.org/HOWTO/Linux+IPv6-HOWTO/index.html
+http://www.thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html
+https://cd34.com/rfc4193/
+http://support.huawei.com/enterprise/docinforeader!loadDocument1.action?contentId=DOC1000112115&partNo=10112
+http://support.huawei.com/huaweiconnect/enterprise/zh/thread-412485-1-1.html

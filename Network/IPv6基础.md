@@ -372,3 +372,11 @@ http://support.huawei.com/enterprise/docinforeader!loadDocument1.action?contentI
 
 http://support.huawei.com/huaweiconnect/enterprise/zh/thread-412485-1-1.html
 
+http://download.huawei.com/edownload/e/download.do?actionFlag=download&nid=EDOC1000079761&partNo=3001&mid=SUPE_DOC
+
+http://download.huawei.com/edownload/e/download.do?actionFlag=download&nid=EDOC1000079762&partNo=3001&mid=SUPE_DOC
+
+http://support.huawei.com/enterprise/docinforeader!loadDocument1.action?contentId=DOC1000102387&partNo=10132
+
+http://support.huawei.com/enterprise/docinforeader!loadDocument1.action?contentId=DOC0000644371&partNo=10012
+

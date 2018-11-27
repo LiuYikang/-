@@ -97,7 +97,7 @@
     ```
 ## 2 ceph的部署和配置
 ### 2.1 ceph的安装
-ceph需要额外安装源地址，这里安装公司的ceph-luminous版本的源地址，操作流程如下（以下均以root用户运行）
+ceph需要额外安装源地址，这里安装的ceph-luminous版本的源地址，操作流程如下（以下均以root用户运行）
 ```shell
 # 安装源地址
 yum install centos-release-ceph-luminous.noarch

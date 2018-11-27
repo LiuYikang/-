@@ -321,7 +321,3 @@ tc filter add dev eth0 parent 1:0 protocol ip handle 5 fw flowid 1:5
 iptables -A OUTPUT -t mangle -p tcp --dport 49153 -j MARK --set-mark 5
 ```
 
-tc qdisc add dev eth0 root handle 1: htb
-tc class add dev eth0 parent 1: classid 1:5 htb rate 1Mbps ceil 1Mbps prio 1
-tc filter add dev eth0 parent 1:0 protocol ip handle 5 fw flowid 1:5
-iptables -A OUTPUT -t mangle -p tcp --dport 49153 -j MARK --set-mark 5

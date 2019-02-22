@@ -1017,6 +1017,7 @@ func doIt(workerID int) {
 }
 ```
 如下，main() 主程序不等两个 goroutine 执行完就直接退出了：
+
 ![](assets/markdown-img-paste-20190221153713643.png)
 
 常用解决办法：使用 "WaitGroup" 变量，它会让主程序等待所有 goroutine 执行完毕再退出。
@@ -1048,6 +1049,7 @@ func doIt(workerID int, done <-chan struct{}, wg sync.WaitGroup) {
 }
 ```
 执行结果：
+
 ![](assets/markdown-img-paste-20190221153733148.png)
 
 看起来好像 goroutine 都执行完了，然而报错：
@@ -1097,6 +1099,7 @@ func doIt(workerID int, ch <-chan interface{}, done <-chan struct{}, wg *sync.Wa
 }
 ```
 运行效果：
+
 ![](assets/markdown-img-paste-20190221153818608.png)
 
 ## 向无缓冲的 channel 发送数据，只要 receiver 准备好了就会立刻返回
@@ -1116,6 +1119,7 @@ func main() {
     ch <- "cmd.2" // 不会被接收处理
 }
 运行效果：
+
 ![](assets/markdown-img-paste-20190221154022704.png)
 
 ## 向已关闭的 channel 发送数据会造成 panic
@@ -1139,6 +1143,7 @@ func main() {
 }
 ```
 运行结果：
+
 ![](assets/markdown-img-paste-20190221154205471.png)
 
 针对上边有 bug 的这个例子，可使用一个废弃 channel done 来告诉剩余的 goroutine 无需再向 ch 发送数据。此时 <- done 的结果是 {}：
@@ -1164,6 +1169,7 @@ func main() {
 }
 ```
 运行效果：
+
 ![](assets/markdown-img-paste-20190221154239275.png)
 
 ## 使用了值为 nil 的 channel
@@ -1223,6 +1229,7 @@ func main() {
 }
 ```
 运行效果：
+
 ![](assets/markdown-img-paste-20190221155811312.png)
 
 ## 若函数 receiver 传参是传值方式，则无法修改参数的原有值
@@ -1260,6 +1267,7 @@ func main() {
 }
 ```
 运行结果：
+
 ![](assets/markdown-img-paste-20190221160328364.png)
 
 ## 关闭 HTTP 的响应体
@@ -2036,6 +2044,7 @@ for n in {1..10000}; do
 done
 ```
 运行效果：
+
 ![](assets/markdown-img-paste-20190221170358594.png)
 
 解决办法：defer 延迟执行的函数写入匿名函数中：
@@ -2332,6 +2341,7 @@ func main() {
 Go 编译器会根据变量的大小及其 "escape analysis" 的结果来决定变量的存储位置，故能准确返回本地变量的地址，这在 C/C++ 中是不行的。
 
 在 go build 或 go run 时，加入 -m 参数，能准确分析程序的变量分配位置：
+
 ![](assets/markdown-img-paste-20190221180144553.png)
 
 ## GOMAXPROCS、Concurrency（并发）and Parallelism（并行）
@@ -2383,7 +2393,9 @@ func main() {
 }
 ```
 运行效果：
+
 ![](assets/markdown-img-paste-20190221181121826.png)
+
 如果你想保持多 goroutine 像代码中的那样顺序执行，可以使用 channel 或 sync 包中的锁机制等。
 
 ## 优先调度
@@ -2421,6 +2433,7 @@ func main() {
 }
 ```
 可以添加 -m 参数来分析 for 代码块中调用的内联函数：
+
 ![](assets/markdown-img-paste-20190221181210249.png)
 
 你也可以使用 runtime 包中的 Gosched() 来 手动启动调度器：
@@ -2440,4 +2453,5 @@ func main() {
 }
 ```
 运行效果：
+
 ![](assets/markdown-img-paste-20190221181226596.png)

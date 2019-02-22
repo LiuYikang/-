@@ -239,7 +239,7 @@ spec:
       name: default-token-6xw9r
       readOnly: true
   dnsPolicy: ClusterFirst
-  nodeName: master10-33-46-241
+  nodeName: master
   priority: 0
   restartPolicy: Always
   schedulerName: default-scheduler
@@ -296,7 +296,7 @@ status:
     state:
       running:
         startedAt: 2019-02-19T01:37:09Z
-  hostIP: 10.33.46.241
+  hostIP: 192.168.2.241
   phase: Running
   podIP: 172.96.0.25
   qosClass: BestEffort

@@ -3,6 +3,9 @@
 ## 协议头
 
 ### 三次握手/四次挥手
+https://blog.csdn.net/whuslei/article/details/6667471
+
+https://blog.csdn.net/yeweilei/article/details/79279963
 
 ### TIME_WAIT、CLOSE_WAIT
 

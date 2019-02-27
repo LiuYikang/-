@@ -8,6 +8,7 @@ https://blog.csdn.net/whuslei/article/details/6667471
 https://blog.csdn.net/yeweilei/article/details/79279963
 
 ### TIME_WAIT、CLOSE_WAIT
+https://blog.csdn.net/kobejayandy/article/details/17655739
 
 ### 建立一个 socket 连接要经过哪些步骤
 

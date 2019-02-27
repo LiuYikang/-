@@ -11,8 +11,10 @@
 ## 内核参数
 
 ## IO模型
+https://www.jianshu.com/p/486b0965c296
 
 ### epoll和poll
+https://cloud.tencent.com/developer/article/1005481
 
 ## top命令
 

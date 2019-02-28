@@ -77,13 +77,13 @@ ip address add 192.68.1.1 dev eth1 scope global     # 设置接口领域，也�
 5. ip route
 路由表相关
 ```shell
-ip -6 route add 2000:ff::/80 via 2000:ff04::1 dev eth1.11   # 添加一条路由
-ip -6 route add default via 2000:ff04::1 dev eth1.11        # 添加默认路由
-ip -6 route show                                            # 查看完整路由表
-ip -6 route show dev eth1.11                                # 查看指定接口路由项
-ip -6 route del 2000:ff04::/64                              # 删除所有相关路由表
-ip -6 route del 2000:ff04::/64 dev eth1.11                  # 删除相关接口上的路由表
-ip -6 route change 2000:ff04::/64 dev eth1.12               # 修改路由表项
+ip route add 2000:ff::/80 via 2000:ff04::1 dev eth1.11   # 添加一条路由
+ip route add default via 2000:ff04::1 dev eth1.11        # 添加默认路由
+ip route show                                            # 查看完整路由表
+ip route show dev eth1.11                                # 查看指定接口路由项
+ip route del 2000:ff04::/64                              # 删除所有相关路由表
+ip route del 2000:ff04::/64 dev eth1.11                  # 删除相关接口上的路由表
+ip route change 2000:ff04::/64 dev eth1.12               # 修改路由表项
 ip route add nat 192.168.10.100 via 202.6.10.1              # 添加 NAT 路由项，将 192 地址转换成 202 地址
 ip route replace default equalize nexthop via 211.139.218.145 dev eth0 weight 1 nexthop via 211.139.218.145 dev eth1 weight 1   # 添加负载均衡路由
 ```

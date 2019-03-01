@@ -154,7 +154,18 @@ drwxr-xr-x 2 root root 4096 Feb 20 13:52 calico-tls
 ```
 
 ## 3. 配置cni-geine
-直接使用[genie-plugin.yaml](./cni-genie/genie-plugin.yaml)部署cni-geine，不需要进行任何修改。
+修改genie-plugin的daemonset中的tolerations，增加以下内容：
+```yaml
+- effect: NoSchedule
+  key: node-role.kubernetes.io/master
+```
+
+修改configmap，增加默认plugin的配置：
+```yaml
+"default_plugin": "flannel"
+```
+
+使用[genie-plugin.yaml](./cni-genie/genie-plugin.yaml)部署cni-geine。
 ```shell
 kubectl apply -f genie-plugin.yaml
 ```

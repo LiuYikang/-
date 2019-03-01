@@ -91,6 +91,7 @@ data:
         "log_level": "info",
         "datastore_type": "kubernetes",
         "hostname": "__KUBERNETES_NODE_NAME__",
+        "default_plugin": "flannel",
         "policy": {
             "type": "k8s",
             "k8s_auth_token": "__SERVICEACCOUNT_TOKEN__"
@@ -155,6 +156,8 @@ spec:
       - key: node.kubernetes.io/not-ready
         effect: NoSchedule
         operator: Exists
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
       volumes:
         - name: cni-bin-dir
           hostPath:

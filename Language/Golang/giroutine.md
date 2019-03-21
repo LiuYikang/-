@@ -20,6 +20,5 @@ https://studygolang.com/articles/9701
 ## goroutine 和 kernel thread 之间是什么关系？
 https://www.jianshu.com/p/b37fd1317cc9
 
-
 https://medium.com/rungo/anatomy-of-channels-in-go-concurrency-in-go-1ec336086adb
 https://codeburst.io/diving-deep-into-the-golang-channels-549fd4ed21a8

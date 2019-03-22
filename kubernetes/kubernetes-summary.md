@@ -17,3 +17,10 @@ Kubernetes主要由以下几个核心组件组成：
 组件之间的通信：
 
 ![](assets/markdown-img-paste-20190223222416890.png)
+
+
+https://www.youtube.com/playlist?list=PLAz0FOwiBi6tVRl4bPbs_G_ucM3N7a1ES
+
+https://k8smeetup.github.io/docs/admin/high-availability/
+https://blog.csdn.net/lovemysea/article/details/79184416
+https://yq.aliyun.com/articles/218895

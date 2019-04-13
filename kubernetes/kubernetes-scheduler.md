@@ -467,10 +467,12 @@ solr-908150957-rswlm           1/1       Running   0          1m        10.244.3
 
 Taints节点应用场景比如用户希望把Kubernetes Master节点保留给 Kubernetes 系统组件使用，或者把一组具有特殊资源预留给某些pod。pod不会再被调度到taint标记过的节点。
 
+给节点 node1 增加一个 taint，它的 key 是 key，value 是 value，effect 是 NoSchedule。这表示只有拥有和这个 taint 相匹配的 toleration 的 pod 才能够被分配到 node1 这个节点。
+
 taint标记节点举例如下:
 ```shell
-$ kubectl taint nodes bjo-ep-dep-039.dev.fwmrm.net key=value:NoSchedule
-node "bjo-ep-dep-039.dev.fwmrm.net" tainted
+$ kubectl taint nodes node1 key=value:NoSchedule
+node "node1" tainted
 ```
 
 如果仍然希望某个pod调度到taint节点上，则必须在 Spec 中做出Toleration 定义，才能调度到该节点，举例如下：
@@ -486,3 +488,21 @@ effect 共有三个可选项，可按实际需求进行设置：
 * NoSchedule：pod不会被调度到标记为taints节点。
 * PreferNoSchedule：NoSchedule的“preference”或“soft”版本。
 * NoExecute：该选项意味着一旦Taint 生效，如该节点内正在运行的 Pod 没有对应 Tolerate 设置，会直接被逐出。
+
+一个 toleration 和一个 taint 相“匹配”是指它们有一样的 key 和 effect ，并且：
+* 如果 operator 是 Exists （此时 toleration 不能指定 value），或者
+* 如果 operator 是 Equal ，则它们的 value 应该相等
+
+> Note:
+> 注意： 存在两种特殊情况：
+> * 如果一个 toleration 的 key 为空且 operator 为 Exists ，表示这个 toleration 与任意的 key 、 value 和 effect 都匹配，即这个 toleration 能容忍任意 taint。
+> ```yaml
+> tolerations:
+> - operator: "Exists"
+> ```
+> * 如果一个 toleration 的 effect 为空，则 key 值与之相同的相匹配 taint 的 effect 可以是任意值。
+> ```yaml
+> tolerations:
+> - key: "key"
+>   operator: "Exists"
+> ```

@@ -15,6 +15,9 @@
 ![](assets/markdown-img-paste-20190301195901440.png)
 
 ### 状态迁移
+
+![](assets/markdown-img-paste-20190419201658283.png)
+
 **客户端TCP状态迁移**
 
 CLOSED->SYN_SENT->ESTABLISHED->FIN_WAIT_1->FIN_WAIT_2->TIME_WAIT->CLOSED
@@ -23,6 +26,87 @@ CLOSED->SYN_SENT->ESTABLISHED->FIN_WAIT_1->FIN_WAIT_2->TIME_WAIT->CLOSED
 
 CLOSED->LISTEN->SYN收到->ESTABLISHED->CLOSE_WAIT->LAST_ACK->CLOSED
 
+
+### 状态描述
+1. 客户端独有的：（1）SYN_SENT （2）FIN_WAIT1 （3）FIN_WAIT2 （4）CLOSING （5）TIME_WAIT 。
+
+2. 服务器独有的：（1）LISTEN （2）SYN_RCVD （3）CLOSE_WAIT （4）LAST_ACK 。
+
+3. 共有的：（1）CLOSED （2）ESTABLISHED 。
+
+### 状态含义
+* LISTEN - 侦听来自远方TCP端口的连接请求；
+* SYN-SENT -在发送连接请求后等待匹配的连接请求；
+* SYN-RECEIVED - 在收到和发送一个连接请求后等待对连接请求的确认；
+* ESTABLISHED- 代表一个打开的连接，数据可以传送给用户；
+* FIN-WAIT-1 - 等待远程TCP的连接中断请求，或先前的连接中断请求的确认；
+* FIN-WAIT-2 - 从远程TCP等待连接中断请求；
+* CLOSE-WAIT - 等待从本地用户发来的连接中断请求；
+* CLOSING -等待远程TCP对连接中断的确认；
+* LAST-ACK - 等待原来发向远程TCP的连接中断请求的确认；
+* TIME-WAIT -等待足够的时间以确保远程TCP接收到连接中断请求的确认；
+* CLOSED - 没有任何连接状态；
+
+### 状态详解
+1. LISTENING ：侦听来自远方的TCP端口的连接请求\
+    * 首先服务端需要打开一个 socket 进行监听，状态为LISTEN。
+    * 有提供某种服务才会处于LISTENING状态， TCP状态变化就是某个端口的状态变化，提供一个服务就打开一个端口，例如：提供www服务默认开的是80端口，提供ftp服务默认的端口为21，当提供的服务没有被连接时就处于LISTENING状态。FTP服务启动后首先处于侦听(LISTENING)状态。处于侦听LISTENING状态时，该端口是开放的，等待连接，但还没有被连接。就像你房子的门已经敞开的，但还没有人进来。\
+    * 看LISTENING状态最主要的是看本机开了哪些端口，这些端口都是哪个程序开的，关闭不必要的端口是保证安全的一个非常重要的方面，服务端口都对应一个服务(应用程序)，停止该服务就关闭了该端口，例如要关闭21端口只要停止IIS服务中的FTP服务即可。关于这方面的知识请参阅其它文章。\
+    * 如果你不幸中了服务端口的木马，木马也开个端口处于LISTENING状态。
+
+2. SYN-SENT： 客户端SYN_SENT状态
+    * 在客户端发送连接请求后，等待匹配的连接请求:
+    * 客户端通过应用程序调用connect进行active open.于是客户端tcp发送一个SYN以请求建立一个连接.之后状态置为SYN_SENT. /*The socket is actively attempting to establish a connection. 在发送连接请求后等待匹配的连接请求 */
+
+    * 当请求连接时客户端首先要发送同步信号给要访问的机器，此时状态为SYN_SENT，如果连接成功了就变为ESTABLISHED，正常情况下SYN_SENT状态非常短暂。例如要访问网站http://www.baidu.com,如果是正常连接的话，用TCPView观察 IEXPLORE .EXE(IE)建立的连接会发现很快从SYN_SENT变为ESTABLISHED，表示连接成功。SYN_SENT状态快的也许看不到。
+
+    * 如果发现有很多SYN_SENT出现，那一般有这么几种情况，一是你要访问的网站不存在或线路不好，二是用扫描软件扫描一个网段的机器，也会出出现很多SYN_SENT，另外就是可能中了病毒了，例如中了"冲击波"，病毒发作时会扫描其它机器，这样会有很多SYN_SENT出现。
+
+3. SYN-RECEIVED： 服务器端状态SYN_RCVD
+    * 再收到和发送一个连接请求后等待对方对连接请求的确认。当服务器收到客户端发送的同步信号时，将标志位ACK和SYN置1发送给客户端，此时服务器端处于SYN_RCVD状态，如果连接成功了就变为ESTABLISHED，正常情况下SYN_RCVD状态非常短暂。如果发现有很多SYN_RCVD状态，那你的机器有可能被SYN Flood的DoS(拒绝服务攻击)攻击了。
+    * SYN Flood的攻击原理是：\
+    在进行三次握手时，攻击软件向被攻击的服务器发送SYN连接请求(握手的第一步)，但是这个地址是伪造的，如攻击软件随机伪造了51.133.163.104、65.158.99.152等等地址。 服务器 在收到连接请求时将标志位 ACK和 SYN 置1发送给客户端(握手的第二步)，但是这些客户端的IP地址都是伪造的，服务器根本找不到客户机，也就是说握手的第三步不可能完成。\
+    这种情况下服务器端一般会重试(再次发送SYN+ACK给客户端)并等待一段时间后丢弃这个未完成的连接，这段时间的长度我们称为SYN Timeout，一般来说这个时间是分钟的数量级(大约为30秒-2分钟);一个用户出现异常导致服务器的一个线程等待1分钟并不是什么很大的问题，但如果有一个恶意的攻击者大量模拟这种情况，服务器端将为了维护一个非常大的半连接列表而消耗非常多的资源----数以万计的半连接，即使是简单的保存并遍历也会消耗非常多的 CPU 时间和内存，何况还要不断对这个列表中的IP进行SYN+ACK的重试。此时从正常客户的角度看来，服务器失去响应，这种情况我们称做： 服务器端受到了SYN Flood攻击(SYN洪水攻击 )
+
+* ESTABLISHED：代表一个打开的连接。
+    * ESTABLISHED状态是表示两台机器正在传输数据，观察这个状态最主要的就是看哪个程序正在处于ESTABLISHED状态。
+    * 服务器出现很多 ESTABLISHED状态： netstat -nat |grep 9502或者使用lsof -i:9502可以检测到。
+    * 当客户端未主动close的时候就断开连接：即客户端发送的FIN丢失或未发送。
+    * 这时候若客户端断开的时候发送了FIN包，则服务端将会处于CLOSE_WAIT状态;
+    * 这时候若客户端断开的时候未发送FIN包，则服务端处还是显示ESTABLISHED状态;
+    * 结果客户端重新连接服务器。
+    * 而新连接上来的客户端(也就是刚才断掉的重新连上来了)在服务端肯定是ESTABLISHED; 如果客户端重复的上演这种情况，那么服务端将会出现大量的假的ESTABLISHED连接和CLOSE_WAIT连接。
+    * 最终结果就是新的其他客户端无法连接上来，但是利用netstat还是能看到一条连接已经建立，并显示ESTABLISHED，但始终无法进入程序代码。
+
+* FIN-WAIT-1： 等待远程TCP连接中断请求，或先前的连接中断请求的确认
+    * 主动关闭(active close)端应用程序调用close，于是其TCP发出FIN请求主动关闭连接，之后进入FIN_WAIT1状态./* The socket is closed, and the connection is shutting down. 等待远程TCP的连接中断请求，或先前的连接中断请求的确认 */
+
+* FIN-WAIT-2：从远程TCP等待连接中断请求
+    * 主动关闭端接到ACK后，就进入了FIN-WAIT-2 ./* Connection is closed, and the socket is waiting for a shutdown from the remote end. 从远程TCP等待连接中断请求 */
+
+    * 这就是著名的半关闭的状态了，这是在关闭连接时，客户端和服务器两次握手之后的状态。在这个状态下，应用程序还有接受数据的能力，但是已经无法发送数据，但是也有一种可能是，客户端一直处于FIN_WAIT_2状态，而服务器则一直处于WAIT_CLOSE状态，而直到应用层来决定关闭这个状态。
+
+* CLOSE-WAIT：等待从本地用户发来的连接中断请求
+    * 被动关闭(passive close)端TCP接到FIN后，就发出ACK以回应FIN请求(它的接收也作为文件结束符传递给上层应用程序),并进入CLOSE_WAIT. /* The remote end has shut down, waiting for the socket to close. 等待从本地用户发来的连接中断请求 */
+
+* CLOSING：等待远程TCP对连接中断的确认
+    * 比较少见./* Both sockets are shut down but we still don't have all our data sent. 等待远程TCP对连接中断的确认 */
+
+* LAST-ACK：等待原来的发向远程TCP的连接中断请求的确认
+    * 被动关闭端一段时间后，接收到文件结束符的应用程序将调用CLOSE关闭连接。这导致它的TCP也发送一个 FIN,等待对方的ACK.就进入了LAST-ACK . /* The remote end has shut down, and the socket is closed. Waiting for acknowledgement. 等待原来发向远程TCP的连接中断请求的确认 */
+
+* TIME-WAIT：等待足够的时间以确保远程TCP接收到连接中断请求的确认
+    * 在主动关闭端接收到FIN后，TCP就发送ACK包，并进入TIME-WAIT状态。/* The socket is waiting after close to handle packets still in the network.等待足够的时间以确保远程TCP接收到连接中断请求的确认 */
+
+    * TIME_WAIT等待状态，这个状态又叫做2MSL状态，说的是在TIME_WAIT2发送了最后一个ACK数据报以后，要进入TIME_WAIT状态，这个状态是防止最后一次握手的数据报没有传送到对方那里而准备的(注意这不是四次握手，这是第四次握手的保险状态)。这个状态在很大程度上保证了双方都可以正常结束，但是，问题也来了。
+
+    * 由于插口的2MSL状态(插口是IP和端口对的意思，socket)，使得应用程序在2MSL时间内是无法再次使用同一个插口的，对于客户程序还好一些，但是对于服务程序，例如httpd，它总是要使用同一个端口来进行服务，而在2MSL时间内，启动httpd就会出现错误(插口被使用)。为了避免这个错误，服务器给出了一个平静时间的概念，这是说在2MSL时间内，虽然可以重新启动服务器，但是这个服务器还是要平静的等待2MSL时间的过去才能进行下一次连接。
+
+* CLOSED：没有任何连接状态
+    * 被动关闭端在接受到ACK包后，就进入了closed的状态。连接结束./* The socket is not being used. 没有任何连接状态 */
+
+
+### 问题分析
 **TIME_WAIT、CLOSE_WAIT**
 1. CLOSE_WAIT
 
@@ -37,6 +121,9 @@ TIME_WAIT是主动关闭连接的一方保持的状态，对于服务器来说�
 
 * 防止上一次连接中的包，迷路后重新出现，影响新连接（经过2MSL，上一次连接中所有的重复包都会消失）
 * 可靠的关闭TCP连接。在主动关闭方发送的最后一个 ACK(FIN) ，有可能丢失，这时被动方会重新发 FIN，如果这时主动方处于 CLOSED 状态，就会响应 RST 而不是 ACK；所以主动方要处于 TIME_WAIT 状态，而不能是 CLOSED。另外这么设计 TIME_WAIT 会定时的回收资源，并不会占用很大资源的，除非短时间内接受大量请求或者受到攻击。
+
+
+
 
 ### 建立一个 socket 连接要经过哪些步骤
 

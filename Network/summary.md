@@ -122,6 +122,18 @@ TIME_WAIT是主动关闭连接的一方保持的状态，对于服务器来说�
 * 防止上一次连接中的包，迷路后重新出现，影响新连接（经过2MSL，上一次连接中所有的重复包都会消失）
 * 可靠的关闭TCP连接。在主动关闭方发送的最后一个 ACK(FIN) ，有可能丢失，这时被动方会重新发 FIN，如果这时主动方处于 CLOSED 状态，就会响应 RST 而不是 ACK；所以主动方要处于 TIME_WAIT 状态，而不能是 CLOSED。另外这么设计 TIME_WAIT 会定时的回收资源，并不会占用很大资源的，除非短时间内接受大量请求或者受到攻击。
 
+### TCP/IP相关博客整理
+【redis】https://segmentfault.com/a/1190000015044878 \
+【tcp option】https://blog.csdn.net/wdscq1234/article/details/52423272 \
+【滑动窗口】https://www.zhihu.com/question/32255109 \
+【全连接队列】http://jm.taobao.org/2017/05/25/525-1/ \
+【client fooling】 https://github.com/torvalds/linux/commit/5ea8ea2cb7f1d0db15762c9b0bb9e7330425a071 \
+【backlog RECV_Q】http://blog.51cto.com/59090939/1947443 \
+【定时器】https://www.cnblogs.com/menghuanbiao/p/5212131.html \
+【队列图示】https://www.itcodemonkey.com/article/5834.html \
+【tcp flood攻击】https://www.cnblogs.com/hubavyn/p/4477883.html \
+【MSS MTU】https://blog.csdn.net/LoseInVain/article/details/53694265 \
+【“三次握手，四次挥手”你真的懂吗？】https://www.cnblogs.com/qcrao-2018/p/10182185.html \
 
 
 

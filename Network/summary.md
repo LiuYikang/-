@@ -123,18 +123,19 @@ TIME_WAIT是主动关闭连接的一方保持的状态，对于服务器来说�
 * 可靠的关闭TCP连接。在主动关闭方发送的最后一个 ACK(FIN) ，有可能丢失，这时被动方会重新发 FIN，如果这时主动方处于 CLOSED 状态，就会响应 RST 而不是 ACK；所以主动方要处于 TIME_WAIT 状态，而不能是 CLOSED。另外这么设计 TIME_WAIT 会定时的回收资源，并不会占用很大资源的，除非短时间内接受大量请求或者受到攻击。
 
 ### TCP/IP相关博客整理
-【redis】https://segmentfault.com/a/1190000015044878 \
-【tcp option】https://blog.csdn.net/wdscq1234/article/details/52423272 \
-【滑动窗口】https://www.zhihu.com/question/32255109 \
-【全连接队列】http://jm.taobao.org/2017/05/25/525-1/ \
-【client fooling】 https://github.com/torvalds/linux/commit/5ea8ea2cb7f1d0db15762c9b0bb9e7330425a071 \
-【backlog RECV_Q】http://blog.51cto.com/59090939/1947443 \
-【定时器】https://www.cnblogs.com/menghuanbiao/p/5212131.html \
-【队列图示】https://www.itcodemonkey.com/article/5834.html \
-【tcp flood攻击】https://www.cnblogs.com/hubavyn/p/4477883.html \
-【MSS MTU】https://blog.csdn.net/LoseInVain/article/details/53694265 \
-【“三次握手，四次挥手”你真的懂吗？】https://www.cnblogs.com/qcrao-2018/p/10182185.html \
-
+[redis](https://segmentfault.com/a/1190000015044878) \
+[tcp option](https://blog.csdn.net/wdscq1234/article/details/52423272) \
+[滑动窗口](https://www.zhihu.com/question/32255109) \
+[全连接队列](http://jm.taobao.org/2017/05/25/525-1/)\
+[client fooling](https://github.com/torvalds/linux/commit/5ea8ea2cb7f1d0db15762c9b0bb9e7330425a071) \
+[backlog RECV_Q](http://blog.51cto.com/59090939/1947443) \
+[定时器](https://www.cnblogs.com/menghuanbiao/p/5212131.html) \
+[队列图示](https://www.itcodemonkey.com/article/5834.html) \
+[tcp flood攻击](https://www.cnblogs.com/hubavyn/p/4477883.html) \
+[MSS MTU](https://blog.csdn.net/LoseInVain/article/details/53694265) \
+[“三次握手，四次挥手”你真的懂吗？](https://www.cnblogs.com/qcrao-2018/p/10182185.html) \
+[从 TCP 三次握手说起：浅析TCP协议中的疑难杂症 ( 1 )](https://cloud.tencent.com/developer/article/1004327) \
+[从 TCP 三次握手说起：浅析TCP协议中的疑难杂症 ( 2 )](https://cloud.tencent.com/developer/article/1004336)
 
 
 ### 建立一个 socket 连接要经过哪些步骤
@@ -245,3 +246,8 @@ Cookie支持跨域名访问，例如将domain属性设置为“.biaodianfu.com�
 
 
 仅运用Cookie或者仅运用Session可能完成不了理想的效果。这时应该尝试一下同时运用Cookie与Session。Cookie与Session的搭配运用在实践项目中会完成很多意想不到的效果。
+
+
+### HTTP相关博客整理
+[HTTP/2 探索第一篇：概念](https://cloud.tencent.com/developer/article/1004340) \
+[HTTP/2探索第二篇——工具及应用](https://cloud.tencent.com/developer/article/1030524)

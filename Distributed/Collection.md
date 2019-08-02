@@ -56,6 +56,8 @@ acks参数，是在KafkaProducer，也就是生产者客户端里设置的也就
 
 [Kafka消费组(consumer group)](https://www.cnblogs.com/huxi2b/p/6223228.html)
 
+kafka consumer怎么保证顺序读取消息？
+
 ## RabbitMQ
 
 ## Redis
@@ -133,6 +135,8 @@ Redis数据结构字典使用的hash算法是 **MurmurHash2** 算法，该算法
 [Raft协议详解-基础知识和leader选举](https://zhuanlan.zhihu.com/p/29130892)
 
 [raft原理（一）：选主与日志复制](http://oserror.com/distributed/raft-principle-one/)
+
+raft在leader故障的情况下，怎么保证竞选leader的follower数据不丢失？
 
 ## Ceph
 
@@ -266,6 +270,8 @@ https://blog.csdn.net/dennis_zane/article/details/83266137
 [20万用户同时访问一个热点缓存，如何优化你的缓存架构](https://juejin.im/post/5c448670e51d455bd36b67f9)
 
 [你的系统如何支撑高并发？](https://juejin.im/post/5c45aaee6fb9a049e6609115)
+
+设计一个微博的timeline，其中某些大V用户可能有千万级的关注量。
 
 ## 其他
 

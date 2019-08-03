@@ -2,11 +2,11 @@
 
 http://www.jasongj.com/tags/Kafka/
 
-* Broker
+* Broker \
 　　Kafka集群包含一个或多个服务器，这种服务器被称为broker
-* Topic
+* Topic \
 　　每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic。（物理上不同Topic的消息分开存储，逻辑上一个Topic的消息虽然保存于一个或多个broker上但用户只需指定消息的Topic即可生产或消费数据而不必关心数据存于何处）
-* Partition
+* Partition \
 　　Parition是物理上的概念，每个Topic包含一个或多个Partition.kafka的高可用可以通过给Partiton设置replica来实现，Partition和replica需要按照以下规则分布到不同的broker上：
 
     Kafka分配Replica的算法如下：
@@ -15,11 +15,11 @@ http://www.jasongj.com/tags/Kafka/
     2. 将第i个Partition分配到第（i mod n）个Broker上
     3. 将第i个Partition的第j个Replica分配到第（(i + j) mod n）个Broker上
     > 更加详细的参考：http://www.jasongj.com/2015/04/24/KafkaColumn2/
-* Producer
+* Producer \
 　　负责发布消息到Kafka broker，使用push方式
-* Consumer
+* Consumer \
 　　消息消费者，向Kafka broker读取消息的客户端。使用pull方式
-* Consumer Group
+* Consumer Group \
 　　每个Consumer属于一个特定的Consumer Group（可为每个Consumer指定group name，若不指定group name则属于默认的group）。
 
 #### CopyOnWrite在kafka中的实践

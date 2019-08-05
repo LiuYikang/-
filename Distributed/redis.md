@@ -39,7 +39,7 @@ Redis数据结构字典使用的hash算法是 **MurmurHash2** 算法，该算法
 | REDIS_ENCODING_LINKEDLIST | 双端链表                    |
 | REDIS_ENCODING_ZIPLIST    | 压缩列表                    |
 | REDIS_ENCODING_INTSET     | 整数集合                    |
-| REDIS_ENCODING_SKIPLIST   | 跳跃表和字典                |
+| REDIS_ENCODING_SKIPLIST   | 跳跃表               |
 
 参考： 
 

@@ -11,7 +11,7 @@ go并发模式中的扇出模式，多个接入点监听一个输入源。利用
 ## 有缓冲和无缓冲的channel
 一个是阻塞的，一个是非阻塞的
 
-[Anatomy of Channels in Go - Concurrency in Go](https://medium.com/rungo/)anatomy-of-channels-in-go-concurrency-in-go-1ec336086adb
+[Anatomy of Channels in Go - Concurrency in Go](https://medium.com/rungo/anatomy-of-channels-in-go-concurrency-in-go-1ec336086adb)
 
 [Diving Deep Into The Golang Channels.](https://codeburst.io/diving-deep-into-the-golang-channels-549fd4ed21a8)
 

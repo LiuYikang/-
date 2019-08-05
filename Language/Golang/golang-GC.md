@@ -22,9 +22,8 @@ golang使用的是 **标记-清理（Mark-and-Sweep）** 来实现gc，标记-�
 ![](./assets/Animation_of_tri-color_garbage_collection.gif)
 
 参考：
-http://legendtkl.com/2017/04/28/golang-gc/
-https://ninokop.github.io/2017/12/07/Go-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/
-https://blog.csdn.net/WangYouJin321/article/details/80481567
+[Golang 垃圾回收剖析](http://legendtkl.com/2017/04/28/golang-gc/) \
+[golang的垃圾回收（GC）机制](https://blog.csdn.net/WangYouJin321/article/details/80481567)
 
 ## 2 逃逸分析
 

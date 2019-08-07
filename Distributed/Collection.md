@@ -1,3 +1,5 @@
+## 限流算法
+
 ### 令牌桶算法
 
 令牌桶算法(Token Bucket)和 Leaky Bucket 效果一样但方向相反的算法,更加容易理解.随着时间流逝,系统会按恒定1/QPS时间间隔(如果QPS=100,则间隔是10ms)往桶里加入Token(想象和漏洞漏水相反,有个水龙头在不断的加水),如果桶已经满了就不再加了.新请求来临时,会各自拿走一个Token,如果没有Token可拿了就阻塞或者拒绝服务.
@@ -51,17 +53,17 @@
 
 ## 系统设计
 
-https://www.hiredintech.com/system-design
+[What are system design questions?](https://www.hiredintech.com/system-design)
 
-https://soulmachine.gitbooks.io/system-design/content/cn/
+[系统设计面试题精选](https://soulmachine.gitbooks.io/system-design/content/cn/)
 
-https://yuanhsh.iteye.com/blog/2194982
+[系统设计面试题思路综述](https://yuanhsh.iteye.com/blog/2194982)
 
-https://www.cnblogs.com/yunnotes/archive/2013/04/19/3032367.html
+[百度面试小结](https://www.cnblogs.com/yunnotes/archive/2013/04/19/3032367.html)
 
-https://www.itcodemonkey.com/article/8126.html
+[如果要设计个分布式文件系统，该从哪些方面考虑？](https://www.itcodemonkey.com/article/8126.html)
 
-https://blog.csdn.net/dennis_zane/article/details/83266137
+[从HDFS看分布式文件系统的设计需求](https://blog.csdn.net/dennis_zane/article/details/83266137)
 
 [如何设计一个百万级用户的抽奖系统](https://juejin.im/post/5ce3f003f265da1bbd4b4946)
 
@@ -89,4 +91,4 @@ https://blog.csdn.net/dennis_zane/article/details/83266137
 [微服务的断路器实现图解Golang通用版](https://studygolang.com/articles/20437)
 
 ### 海量数据
-https://blog.csdn.net/v_july_v/article/details/6279498
+[十道海量数据处理面试题与十个方法大总结](https://blog.csdn.net/v_july_v/article/details/6279498)

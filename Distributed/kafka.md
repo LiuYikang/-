@@ -45,3 +45,39 @@ acks参数，是在KafkaProducer，也就是生产者客户端里设置的也就
 [Kafka消费组(consumer group)](https://www.cnblogs.com/huxi2b/p/6223228.html)
 
 kafka consumer怎么保证顺序读取消息？
+
+### kafka exactly once的实现
+
+#### Producer端的消息幂等性保证
+每个Producer在初始化的时候都会被分配一个唯一的PID。
+
+Producer向指定的Topic的特定Partition发送的消息都携带一个sequence number（简称seqNum），从零开始的单调递增的。
+
+Broker会将Topic-Partition对应的seqNum在内存中维护，每次接受到Producer的消息都会进行校验；只有seqNum比上次提交的seqNum刚好大一，才被认为是合法的。比它大的，说明消息有丢失；比它小的，说明消息重复发送了。
+
+以上说的这个只是针对单个Producer在一个session内的情况，假设Producer挂了，又重新启动一个Producer被而且分配了另外一个PID，这样就不能达到防重的目的了，所以kafka又引进了Transactional Guarantees（事务性保证）。
+
+#### Transactional Guarantees 事务性保证
+kafka的事务性保证说的是：同时向多个TopicPartitions发送消息，要么都成功，要么都失败。
+
+为什么搞这么个东西出来？我想了下有可能是这种例子：
+
+用户定了一张机票，付款成功之后，订单的状态改了，飞机座位也被占了，这样相当于是2条消息，那么保证这个事务性就是：向订单状态的Topic和飞机座位的Topic分别发送一条消息，这样就需要kafka的这种事务性保证。
+
+这种功能可以使得consumer offset的提交（也是向broker产生消息）和producer的发送消息绑定在一起。
+
+用户需要提供一个唯一的全局性TransactionalId，这样就能将PID和TransactionalId映射起来，就能解决producer挂掉后跨session的问题，应该是将之前PID的TransactionalId赋值给新的producer。
+
+#### Consumer端
+以上的事务性保证只是针对的producer端，对consumer端无法保证，有以下原因：
+* 压实类型的topics，有些事务消息可能被新版本的producer重写
+* 事务可能跨坐2个log segments，这时旧的segments可能被删除，就会丢消息
+* 消费者可能寻址到事务中任意一点，也会丢失一些初始化的消息
+* 消费者可能不会同时从所有的参与事务的TopicPartitions分片中消费消息
+
+如果是消费kafka中的topic，并且将结果写回到kafka中另外的topic，可以将消息处理后结果的保存和offset的保存绑定为一个事务，这时就能保证消息的处理和offset的提交要么都成功，要么都失败。
+
+如果是将处理消息后的结果保存到外部系统，这时就要用到两阶段提交（tow-phase commit），但是这样做很麻烦，较好的方式是offset自己管理，将它和消息的结果保存到同一个地方，整体上进行绑定， 可以参考Kafka Connect中HDFS的例子
+
+[Kafka设计解析（八）- Exactly Once语义与事务机制原理](http://www.jasongj.com/kafka/transaction/)
+[Stream Processing: Apache Kafka的Exactly-once的定义 原理和实现](https://blog.csdn.net/liangyihuai/article/details/82931140)

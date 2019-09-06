@@ -17,3 +17,8 @@ GOPROXY=https://goproxy.io
 * GOPROXY=https://goproxy.io GO111MODULE=on go mod verify //校验依赖
 * GOPROXY=https://goproxy.io GO111MODULE=on go mod why //解释为什么需要依赖
 * GOPROXY=https://goproxy.io GO111MODULE=on go list -m -json all //依赖详情
+
+## FAQ
+
+#### go mod tidy 报错：verifying ...: checksum mismatch
+删除go.sum，重新生成一份mod缓存

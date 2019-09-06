@@ -2333,6 +2333,8 @@ func main() {
 }
 ```
 
+参考：[Go语言第一深坑 - interface 与 nil 的比较](https://studygolang.com/articles/10635)
+
 ## 堆栈变量
 你并不总是清楚你的变量是分配到了堆还是栈。
 

@@ -49,7 +49,7 @@ func main() {
 	panic(1)
 }
 ```
-必须在defer函数中直接调用才有效:
+**必须在defer函数中直接调用才有效:**
 ```golang
 func main() {
 	defer func() {
@@ -214,7 +214,7 @@ func main() {
 	}
 }
 ```
-解决的方法可以在for中构造一个局部函数, 在局部函数内部执行defer:
+解决的方法可以在**for中构造一个局部函数**, 在局部函数内部执行defer:
 ```golang
 func main() {
 	for i := 0; i < 5; i++ {
@@ -1623,42 +1623,7 @@ func main() {
 ```
 
 ## 从 panic 中恢复
-在一个 defer 延迟执行的函数中调用 recover() ，它便能捕捉 / 中断 panic
-```golang
-// 错误的 recover 调用示例
-func main() {
-    recover()    // 什么都不会捕捉
-    panic("not good")    // 发生 panic，主程序退出
-    recover()    // 不会被执行
-    println("ok")
-}
-
-// 正确的 recover 调用示例
-func main() {
-    defer func() {
-        fmt.Println("recovered: ", recover())
-    }()
-    panic("not good")
-}
-```
-从上边可以看出，recover() 仅在 defer 执行的函数中调用才会生效。
-```golang
-// 错误的调用示例
-func main() {
-    defer func() {
-        doRecover()
-    }()
-    panic("not good")
-}
-
-func doRecover() {
-    fmt.Println("recobered: ", recover())
-}
-```
-> recobered: <nil> panic: not good
-
-## 从 panic 中恢复
-在一个 defer 延迟执行的函数中调用 recover() ，它便能捕捉 / 中断 panic
+在一个 defer 延迟执行的函数中调用 recover() ，它便能捕捉/中断 panic
 ```golang
 // 错误的 recover 调用示例
 func main() {
@@ -2080,7 +2045,7 @@ func main() {
     if data, ok := data.(int); ok {
         fmt.Println("[is an int], data: ", data)
     } else {
-        fmt.Println("[not an int], data: ", data)    // [isn't a int], data:  0
+        fmt.Println("[not an int], data: ", data)    // [is a int], data:  0
     }
 }
 

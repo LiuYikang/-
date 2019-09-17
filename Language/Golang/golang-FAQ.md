@@ -188,6 +188,7 @@ err.Error undefined (type interface {} is interface with no methods)
 ```go
 func main() {
     defer func() {
+
         if err := recover(); err != nil {
             fmt.Println("捕获异常:", fmt.Errorf("%v", err).Error())
         }
@@ -200,12 +201,11 @@ func main() {
 捕获异常: a
 ```
 
-## 逃逸分析
-golang通过编译器的**逃逸分析**来决定变量是分配在栈上，还是分配在堆上。
+## golang内存分配
+Go在程序启动时，会向操作系统申请一大块内存，之后自行管理。
 
-逃逸分析的用处（为了性能）
-* 最大的好处应该是减少gc的压力，不逃逸的对象分配在栈上，当函数返回时就回收了资源，不需要gc标记清除。
-* 因为逃逸分析完后可以确定哪些变量可以分配在栈上，栈的分配比堆快，性能好
-* 同步消除，如果你定义的对象的方法上有同步锁，但在运行时，却只有一个线程在访问，此时逃逸分析后的机器码，会去掉同步锁运行。
+Go内存管理的基本单元是mspan，它由若干个页组成，每种mspan可以分配特定大小的object。
 
-开启逃逸分析日志很简单，只要在编译的时候加上-gcflags '-m'，但是我们为了不让编译时自动内连函数，一般会加-l参数，最终为-gcflags '-m -l'
+mcache, mcentral, mheap是Go内存管理的三大组件，层层递进。mcache管理线程在本地缓存的mspan；mcentral管理全局的mspan供所有线程使用；mheap管理Go的所有动态分配内存。
+
+极小对象会分配在一个object中，以节省资源，使用tiny分配器分配内存；一般小对象通过mspan分配内存；大对象则直接由mheap分配内存。

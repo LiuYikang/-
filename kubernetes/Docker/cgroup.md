@@ -18,10 +18,10 @@
 * **memory**: 可以设定cgroup中任务对内存使用量的限定，并自动生成内存使用情况报告
 * **perf_event**: 对cgroup中的任务可以进行统一的性能测试
 * **net_cls**: 这个 subsystem Docker 没有直接使用，它通过使用等级识别符 (classid) 标记网络数据包，从而允许 Linux 流量控制程序（TC：Traffic Controller）识别从具体 cgroup 中生成的数据包。
-* *net_prio*： 网络报文优先级；net_prio（Network Priority）子资源能够动态设置 cgroup 中应用在网络接口的优先级。网络优先级是报文的一个属性值，tc可以设置网络的优先级，socket 也可以通过 SO_PRIORITY 选项设置它（但是很少应用会这么做）。
-* *hugetlb*： 这个子系统主要针对于HugeTLB系统进行限制，这是一个大页文件系统。
-* *pids*： 这个子系统，可以实现对某个控制组中进程和线程的总数进行限制
-* *rdma*： [rdma](https://www.kernel.org/doc/Documentation/cgroup-v1/rdma.txt)
+* **net_prio**： 网络报文优先级；net_prio（Network Priority）子资源能够动态设置 cgroup 中应用在网络接口的优先级。网络优先级是报文的一个属性值，tc可以设置网络的优先级，socket 也可以通过 SO_PRIORITY 选项设置它（但是很少应用会这么做）。
+* **hugetlb**： 这个子系统主要针对于HugeTLB系统进行限制，这是一个大页文件系统。
+* **pids**： 这个子系统，可以实现对某个控制组中进程和线程的总数进行限制
+* **rdma**： [rdma](https://www.kernel.org/doc/Documentation/cgroup-v1/rdma.txt)
 
 ## cgroups的组织结构
 cgroup是一个树状结构，但系统中多个cgroup构成的并非一个单根结构，而是可以存在多个，最终构成了一个**cgroup森林**。这样做的目的是，如果只有一个层级，则所有的任务都将被迫绑定其上的所有子系统，这会给某些人物带来不必要的限制。在Docker中，每个子系统独自构成一个层级，这样做非常易于管理。组织结构图如下：

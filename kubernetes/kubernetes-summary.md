@@ -3,6 +3,8 @@
 ## 1. 架构图
 ![](assets/markdown-img-paste-2019022322232198.png)
 
+![](assets/k8s-architecture.jpg)
+
 ## 2. 核心组件介绍
 Kubernetes主要由以下几个核心组件组成：
 * etcd保存了整个集群的状态；
